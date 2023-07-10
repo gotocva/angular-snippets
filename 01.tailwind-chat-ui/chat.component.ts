@@ -11,25 +11,17 @@ export class ChatComponent implements OnInit {
   public currentQuestionIndex = 0;
   public questionLists = ['Hey ! What is your email id ?', 'Next tell me, What is your password ?'];
   public answerList: any = [];
-
+  public percentageCompleted: any = 0;
   public chatList: any = [];
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
-  /**
-   * 
-   */
   ngOnInit(): void {
     //
     this.chatList.push({fromBot: true, message: this.questionLists[0]});
-    this.chatList.push({fromBot: true, loader: true});
+    // this.chatList.push({fromBot: true, loader: true});
   }
 
-  /**
-   * 
-   * @param email 
-   * @returns 
-   */
   validateEmail(email: string) {
     var emailsArray = email.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
     if (emailsArray != null && emailsArray.length) {
@@ -40,10 +32,6 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  /**
-   * 
-   * @param event 
-   */
   public onKeyDownEvent(event: any) {
     console.log('form submitted');
     this.chatList.push({fromBot: false, message: this.inputText});
@@ -53,6 +41,7 @@ export class ChatComponent implements OnInit {
             this.chatList.push({fromBot: true, message: 'Cool ! got your email. \n' + this.validateEmail(this.inputText)});
             this.currentQuestionIndex = this.currentQuestionIndex + 1;
             this.chatList.push({fromBot: true, message: this.questionLists[this.currentQuestionIndex]});
+            this.percentageCompleted = 50;
           } else {
             this.chatList.push({fromBot: true, message: 'Please enter valid email '});
           }
@@ -62,6 +51,7 @@ export class ChatComponent implements OnInit {
         if (this.inputText == '12345678') {
           this.chatList.push({fromBot: true, message: 'Login success '});
           this.currentQuestionIndex = this.currentQuestionIndex + 1;
+          this.percentageCompleted = 100;
         } else {
           this.chatList.push({fromBot: true, message: 'Invalid password'});
         }
@@ -70,9 +60,12 @@ export class ChatComponent implements OnInit {
       default:
         break;
     }
-    const container = this.scrollContainer.nativeElement;
-    console.log(container.scrollHeight)
-    container.scrollTop = container.scrollHeight + 50000;
+
+    setTimeout(() => {
+      const container = this.scrollContainer.nativeElement;
+      container.scrollTop = container.scrollHeight;
+    }, 100);
+    
     this.inputText = '';
   }
 }
