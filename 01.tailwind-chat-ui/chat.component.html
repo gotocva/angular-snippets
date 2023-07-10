@@ -10,7 +10,7 @@
         <div *ngFor="let chat of chatList">
           <div class="" [ngClass]="(chat.fromBot == true)?'flex w-full mt-2 space-x-3 max-w-xs':'flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end'">
             <div [ngClass]="(chat.fromBot == true)?'flex-shrink-0 h-10 w-10 rounded-full bg-gray-300':'flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end'" class=""></div>
-             <div style="min-width: 55px;">
+             <div [ngClass]="chat.loader ? 'width-55' : ''" >
               <div [ngClass]="(chat.fromBot == true)?'bg-gray-300 p-3 rounded-r-lg rounded-bl-lg':'bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg'" class="">
                 <p *ngIf="!chat.loader" class="text-sm"> {{ chat.message }} </p>
                 <div *ngIf="chat.loader" class="typing-loader"></div>
